@@ -8,7 +8,7 @@ service iptables restart
 yum -y install docker-io
 service docker start
 chkconfig docker on
-docker run --name some-postgres -e POSTGRES_PASSWORD=12345678 -e POSTGRES_USER=sample_app -d postgres
+docker run --name some-postgres -e POSTGRES_PASSWORD="$sample_app_DATABASE_PASSWORD" -e POSTGRES_USER=sample_app -d postgres
 cd /opt
 yum -y install git
 git clone https://github.com/carmelocuenca/sample_app_rails_4.git
@@ -23,3 +23,4 @@ docker run --link some-postgres:db --rm -w /usr/src/app sample_app_image rake db
 docker run --link some-postgres:db --rm -w /usr/src/app sample_app_image rake db:populate
 docker run --link some-postgres:db -d -w /usr/src/app -p 80:3000 sample_app_image rails server
 
+userdata.sh
